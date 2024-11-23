@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tidy URL Options</title>
+  <style>
+    body {
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    }
+    
+    .option-container {
+      width: 300px;
+    }
+    
+    .option-group {
+      margin-bottom: 20px;
+    }
+    
+    .sub-options {
+      margin-left: 25px;
+      margin-top: 10px;
+    }
+    
+    .sub-option {
+      margin: 8px 0;
+      color: #666;
+    }
+    
+    .sub-option.disabled {
+      color: #999;
+    }
+    
+    .sub-option input[type="radio"] {
+      margin-right: 8px;
+    }
+    
+    .main-option {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .status {
+      margin-top: 16px;
+      padding: 8px;
+      border-radius: 4px;
+      display: none;
+    }
+    
+    .status.success {
+      background-color: #e6ffe6;
+      color: #006600;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="option-container">
+    <div class="option-group">
+      <div class="main-option">
+        <label>
+          <input type="checkbox" id="quickAction"> Quick Action
+        </label>
+      </div>
+      <div class="sub-options">
+        <div class="sub-option">
+          <label>
+            <input type="radio" name="quickActionOption" value="tidy-current-refresh" disabled>
+            Tidy & Refresh Current Tab
+          </label>
+        </div>
+        <div class="sub-option">
+          <label>
+            <input type="radio" name="quickActionOption" value="tidy-current-copy" disabled>
+            Tidy & Copy Current Tab
+          </label>
+        </div>
+        <div class="sub-option">
+          <label>
+            <input type="radio" name="quickActionOption" value="tidy-current-markdown" disabled>
+            Tidy & Copy Current Tab as Markdown
+          </label>
+        </div>
+        <div class="sub-option">
+          <label>
+            <input type="radio" name="quickActionOption" value="tidy-all-copy" disabled>
+            Tidy & Copy All Tabs
+          </label>
+        </div>
+        <div class="sub-option">
+          <label>
+            <input type="radio" name="quickActionOption" value="tidy-all-markdown" disabled>
+            Tidy & Copy All Tabs as Markdown
+          </label>
+        </div>
+      </div>
+    </div>
+    <div id="status" class="status"></div>
+  </div>
+  <script src="options.js"></script>
+</body>
+</html>

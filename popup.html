@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tidy URL</title>
+  <style>
+    body {
+      width: 200px;
+      padding: 15px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    }
+    
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    button {
+      background-color: #b8e3ff;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: left;
+      font-size: 14px;
+      transition: background-color 0.2s;
+    }
+    
+    button:hover {
+      background-color: #8ed4ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="button-container">
+    <button id="tidyRefresh">
+      Tidy & Refresh
+    </button>
+    <button id="tidyCopy">
+      Tidy & Copy
+    </button>
+    <button id="tidyMarkdown">
+      Tidy & Copy as Markdown
+    </button>
+    <button id="tidyAllCopy">
+      Tidy All Tabs & Copy
+    </button>
+    <button id="tidyAllMarkdown">
+      Tidy All Tabs as Markdown
+    </button>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

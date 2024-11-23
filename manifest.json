@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json.schemastore.org/chrome-manifest.json",
+  "manifest_version": 3,
+  "version": "1.0",
+  "name": "Tidy URL",
+  "description": "Clean and tidy URLs by removing query parameters with various options",
+  "author": "Your Name",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "clipboardWrite",
+    "commands",
+    "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  },
+  "commands": {
+    "tidy-current-refresh": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+1",
+        "mac": "Command+Shift+1"
+      },
+      "description": "Tidy current tab URL and refresh"
+    },
+    "tidy-current-copy": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+2",
+        "mac": "Command+Shift+2"
+      },
+      "description": "Tidy current tab URL and copy"
+    },
+    "tidy-current-markdown": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+3",
+        "mac": "Command+Shift+3"
+      },
+      "description": "Tidy current tab URL and copy with markdown"
+    },
+    "tidy-all-copy": {
+      "description": "Tidy all tabs URLs and copy"
+    },
+    "tidy-all-markdown": {
+      "description": "Tidy all tabs URLs and copy with markdown"
+    }
+  }
+}
