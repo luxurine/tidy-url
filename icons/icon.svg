@@ -1,0 +1,13 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <rect width="128" height="128" rx="20" fill="#1a73e8"/>
+  <g transform="translate(20, 20)">
+    <!-- Chain link icon representing URL cleaning -->
+    <path d="M48 24C48 10.7 37.3 0 24 0S0 10.7 0 24s10.7 24 24 24h24v-8H24c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16v8h8v-8z" fill="white"/>
+    <path d="M80 24c0-13.3-10.7-24-24-24S32 10.7 32 24v8h8v-8c0-8.8 7.2-16 16-16s16 7.2 16 16-7.2 16-16 16H32v8h24c13.3 0 24-10.7 24-24z" fill="white"/>
+    <rect x="32" y="20" width="24" height="8" rx="4" fill="white"/>
+    <!-- Cleaning brush effect -->
+    <circle cx="70" cy="58" r="3" fill="#ffd700"/>
+    <circle cx="65" cy="63" r="2" fill="#ffd700"/>
+    <circle cx="75" cy="63" r="2" fill="#ffd700"/>
+  </g>
+</svg>

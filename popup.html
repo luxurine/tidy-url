@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Tidy URL</h1>
+    </div>
+    
+    <div class="actions">
+      <button id="tidy-current" class="action-btn">
+        <div class="btn-icon">🔗</div>
+        <div class="btn-text">Tidy & Copy Current Tab</div>
+        <div class="btn-shortcut">⌘⇧1</div>
+      </button>
+      
+      <button id="tidy-current-markdown" class="action-btn">
+        <div class="btn-icon">📝</div>
+        <div class="btn-text">Tidy & Copy Current Tab as Markdown</div>
+        <div class="btn-shortcut">⌘⇧2</div>
+      </button>
+      
+      <button id="tidy-all" class="action-btn">
+        <div class="btn-icon">📑</div>
+        <div class="btn-text">Tidy & Copy All Tabs</div>
+        <div class="btn-shortcut">⌘⇧3</div>
+      </button>
+      
+      <button id="tidy-all-markdown" class="action-btn">
+        <div class="btn-icon">📋</div>
+        <div class="btn-text">Tidy & Copy All Tabs as Markdown</div>
+        <div class="btn-shortcut">⌘⇧4</div>
+      </button>
+    </div>
+    
+    <div class="footer">
+      <div class="status" id="status"></div>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

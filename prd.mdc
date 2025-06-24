@@ -1,0 +1,48 @@
+# Tidy URL
+
+A Chrome extension that helps you clean URL(s) by removing query parameters, copying them to clipboard, and optionally converting them to markdown format. Perfect for sharing clean links.
+
+## Features
+
+### Main Functions
+
+1. **Tidy & Copy Current Tab**
+   - Removes query parameters of current tab's URL
+   - Copies the clean URL to clipboard
+
+2. **Tidy & Copy Current Tab as Markdown**
+   - Removes query parameters of current tab's URL
+   - Copies the URL and page title in markdown format: `[Page Title](URL)`
+
+3. **Tidy & Copy All Tabs**
+   - Removes query parameters of all tabs in current window
+   - Copies all clean URLs as a bullet-point list
+
+4. **Tidy & Copy All Tabs as Markdown**
+   - Removes query parameters of all tabs in current window
+   - Copies all URLs and titles as a markdown bullet-point list
+
+### Quick action mode
+
+- Enable from extension options (right-click extension icon → Options)
+- Performs your chosen action immediately when clicking the extension icon
+- Only one quick action can be active at a time
+
+### Keyboard shortcuts customization
+  - Mac: default: ⌘⇧1 through ⌘⇧5
+  - Windows: default: Ctrl+Shift+1 through Ctrl+Shift+5
+  - You can change the shortcuts in the chrome global keyboard shortcuts settings
+
+## Usage
+
+### Basic Usage
+1. Click the extension icon to open the popup menu
+2. Choose one of the four available actions
+3. The selected action will be performed immediately
+
+### Quick Action Setup
+1. Right-click the extension icon
+2. Select "Options"
+3. Enable "Quick Action"
+4. Select your preferred default action
+5. Now clicking the extension icon will perform that action immediately
