@@ -8,7 +8,9 @@
     "tabs",
     "storage",
     "activeTab",
-    "scripting"
+    "scripting",
+    "clipboardWrite",
+    "offscreen"
   ],
 
   "action": {

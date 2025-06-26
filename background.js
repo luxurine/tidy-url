@@ -8,17 +8,62 @@ function tidyUrl(url) {
   }
 }
 
-// Copy text to clipboard using the offscreen document method
+// Copy text to clipboard using content script injection
 async function copyToClipboard(text) {
   try {
-    // For Manifest V3, we need to use the offscreen document or tabs API
-    // Since we have activeTab permission, we can inject a script to copy
+    // First try offscreen document method
+    try {
+      const existingContexts = await chrome.runtime.getContexts({
+        contextTypes: ['OFFSCREEN_DOCUMENT'],
+        documentUrls: [chrome.runtime.getURL('offscreen.html')]
+      });
+
+      if (existingContexts.length === 0) {
+        await chrome.offscreen.createDocument({
+          url: 'offscreen.html',
+          reasons: ['CLIPBOARD'],
+          justification: 'Write text to clipboard'
+        });
+      }
+
+      const response = await new Promise((resolve) => {
+        chrome.runtime.sendMessage({
+          action: 'copyToClipboard',
+          text: text
+        }, (response) => {
+          if (chrome.runtime.lastError) {
+            resolve(null);
+          } else {
+            resolve(response);
+          }
+        });
+      });
+
+      if (response && response.success) {
+        return true;
+      }
+    } catch (offscreenError) {
+      // Silently fallback to content script method
+    }
+
+    // Fallback to content script method
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     
     await chrome.scripting.executeScript({
       target: { tabId: tab.id },
       func: (textToCopy) => {
-        navigator.clipboard.writeText(textToCopy);
+        // Use execCommand method to avoid permission dialog
+        const textarea = document.createElement('textarea');
+        textarea.value = textToCopy;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-999999px';
+        textarea.style.top = '-999999px';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        const result = document.execCommand('copy');
+        document.body.removeChild(textarea);
+        return result;
       },
       args: [text]
     });
@@ -48,7 +93,6 @@ async function tidyCurrentTab() {
     const tab = await getCurrentTab();
     const tidiedUrl = tidyUrl(tab.url);
     await copyToClipboard(tidiedUrl);
-    console.log('Current tab URL copied:', tidiedUrl);
   } catch (err) {
     console.error('Error in tidyCurrentTab:', err);
   }
@@ -60,7 +104,6 @@ async function tidyCurrentTabMarkdown() {
     const tidiedUrl = tidyUrl(tab.url);
     const markdownText = `[${tab.title}](${tidiedUrl})`;
     await copyToClipboard(markdownText);
-    console.log('Current tab markdown copied:', markdownText);
   } catch (err) {
     console.error('Error in tidyCurrentTabMarkdown:', err);
   }
@@ -71,7 +114,6 @@ async function tidyAllTabs() {
     const tabs = await getAllTabs();
     const tidiedUrls = tabs.map(tab => `• ${tidyUrl(tab.url)}`).join('\n');
     await copyToClipboard(tidiedUrls);
-    console.log(`${tabs.length} tab URLs copied`);
   } catch (err) {
     console.error('Error in tidyAllTabs:', err);
   }
@@ -82,7 +124,6 @@ async function tidyAllTabsMarkdown() {
     const tabs = await getAllTabs();
     const markdownList = tabs.map(tab => `• [${tab.title}](${tidyUrl(tab.url)})`).join('\n');
     await copyToClipboard(markdownList);
-    console.log(`${tabs.length} tab markdown links copied`);
   } catch (err) {
     console.error('Error in tidyAllTabsMarkdown:', err);
   }
@@ -110,8 +151,6 @@ async function performAction(actionType) {
 
 // Handle keyboard shortcuts
 chrome.commands.onCommand.addListener(async (command) => {
-  console.log('Command received:', command);
-  
   switch (command) {
     case 'tidy-current':
       await performAction('tidy-current');
@@ -130,8 +169,6 @@ chrome.commands.onCommand.addListener(async (command) => {
 
 // Handle extension icon click for quick actions
 chrome.action.onClicked.addListener(async (tab) => {
-  console.log('Extension icon clicked');
-  
   // Check if quick action is enabled
   const result = await chrome.storage.sync.get(['quickActionEnabled', 'quickActionType']);
   
@@ -144,8 +181,6 @@ chrome.action.onClicked.addListener(async (tab) => {
 
 // Initialize extension
 chrome.runtime.onInstalled.addListener((details) => {
-  console.log('Tidy URL extension installed/updated');
-  
   if (details.reason === 'install') {
     // Set default options on first install
     chrome.storage.sync.set({
@@ -155,9 +190,4 @@ chrome.runtime.onInstalled.addListener((details) => {
   }
 });
 
-// Handle storage changes
-chrome.storage.onChanged.addListener((changes, namespace) => {
-  if (namespace === 'sync') {
-    console.log('Storage changed:', changes);
-  }
-});
+

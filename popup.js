@@ -8,11 +8,57 @@ function tidyUrl(url) {
   }
 }
 
-// Copy text to clipboard
+// Copy text to clipboard with fallback methods
 async function copyToClipboard(text) {
   try {
-    await navigator.clipboard.writeText(text);
-    return true;
+    // First try offscreen document method
+    try {
+      const existingContexts = await chrome.runtime.getContexts({
+        contextTypes: ['OFFSCREEN_DOCUMENT'],
+        documentUrls: [chrome.runtime.getURL('offscreen.html')]
+      });
+
+      if (existingContexts.length === 0) {
+        await chrome.offscreen.createDocument({
+          url: 'offscreen.html',
+          reasons: ['CLIPBOARD'],
+          justification: 'Write text to clipboard'
+        });
+      }
+
+      const response = await new Promise((resolve) => {
+        chrome.runtime.sendMessage({
+          action: 'copyToClipboard',
+          text: text
+        }, (response) => {
+          if (chrome.runtime.lastError) {
+            resolve(null);
+          } else {
+            resolve(response);
+          }
+        });
+      });
+
+      if (response && response.success) {
+        return true;
+      }
+    } catch (offscreenError) {
+      // Silently fallback to direct method
+    }
+
+    // Fallback to direct clipboard access
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-999999px';
+    textarea.style.top = '-999999px';
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    const result = document.execCommand('copy');
+    document.body.removeChild(textarea);
+    
+    return result;
   } catch (err) {
     console.error('Failed to copy: ', err);
     return false;
